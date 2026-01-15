@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenieIQ - English Composition & PSLE Paper 2 Practice System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 GenieIQ English Composition Practice</h1>
+            <p class="subtitle">PSLE Paper 2 Preparation & Creative Writing Assessment</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="practice">Practice Writing</button>
+            <button class="tab-btn" data-tab="mock-test">Mock Test</button>
+            <button class="tab-btn" data-tab="past-questions">Past Questions</button>
+            <button class="tab-btn" data-tab="custom">Custom Questions</button>
+        </nav>
+
+        <!-- Practice Writing Tab -->
+        <div id="practice" class="tab-content active">
+            <h2>Composition Practice</h2>
+            <div class="prompt-section">
+                <h3>Select a Topic</h3>
+                <select id="topic-select" class="select-box">
+                    <option value="">-- Choose a topic --</option>
+                    <option value="narrative">Narrative Composition</option>
+                    <option value="descriptive">Descriptive Writing</option>
+                    <option value="reflective">Reflective Essay</option>
+                    <option value="persuasive">Persuasive Writing</option>
+                </select>
+                <button id="random-prompt-btn" class="btn btn-secondary">Generate Random Prompt</button>
+            </div>
+
+            <div id="writing-prompt" class="writing-prompt hidden">
+                <h3>Your Writing Prompt:</h3>
+                <div id="prompt-text" class="prompt-box"></div>
+                <div class="word-limit">Word Limit: <span id="word-limit">150-200</span> words</div>
+            </div>
+
+            <div id="writing-area" class="hidden">
+                <h3>Write Your Composition</h3>
+                <textarea id="composition-text" placeholder="Start writing your composition here..." rows="15"></textarea>
+                <div class="writing-stats">
+                    <span>Word Count: <strong id="word-count">0</strong></span>
+                    <span>Character Count: <strong id="char-count">0</strong></span>
+                </div>
+                <button id="submit-composition" class="btn btn-primary">Submit for Assessment</button>
+            </div>
+
+            <div id="assessment-result" class="hidden">
+                <h3>📊 Assessment Results</h3>
+                <div class="assessment-card">
+                    <div class="score-section">
+                        <div class="score-item">
+                            <label>Overall Score:</label>
+                            <div class="score-value" id="overall-score">-</div>
+                        </div>
+                        <div class="score-item">
+                            <label>Content & Organization:</label>
+                            <div class="score-badge" id="content-score">-</div>
+                        </div>
+                        <div class="score-item">
+                            <label>Language Use:</label>
+                            <div class="score-badge" id="language-score">-</div>
+                        </div>
+                        <div class="score-item">
+                            <label>Creativity:</label>
+                            <div class="score-badge" id="creativity-score">-</div>
+                        </div>
+                    </div>
+                    <div class="feedback-section">
+                        <h4>Detailed Feedback:</h4>
+                        <div id="feedback-text"></div>
+                    </div>
+                    <div class="suggestions-section">
+                        <h4>Suggestions for Improvement:</h4>
+                        <ul id="suggestions-list"></ul>
+                    </div>
+                </div>
+                <button id="new-practice" class="btn btn-secondary">Start New Practice</button>
+            </div>
+        </div>
+
+        <!-- Mock Test Tab -->
+        <div id="mock-test" class="tab-content">
+            <h2>Generate Mock Test</h2>
+            <div class="mock-test-setup">
+                <div class="form-group">
+                    <label for="test-type">Test Type:</label>
+                    <select id="test-type" class="select-box">
+                        <option value="random">Random Questions</option>
+                        <option value="topic">Topic-Based</option>
+                        <option value="year">Past Year Paper</option>
+                    </select>
+                </div>
+                <div class="form-group" id="topic-group" style="display: none;">
+                    <label for="mock-topic">Topic:</label>
+                    <select id="mock-topic" class="select-box">
+                        <option value="comprehension">Comprehension</option>
+                        <option value="grammar">Grammar & Vocabulary</option>
+                        <option value="composition">Composition</option>
+                        <option value="visual-text">Visual Text Comprehension</option>
+                    </select>
+                </div>
+                <div class="form-group" id="year-group" style="display: none;">
+                    <label for="exam-year">Year:</label>
+                    <select id="exam-year" class="select-box">
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="question-count">Number of Questions:</label>
+                    <input type="number" id="question-count" min="5" max="20" value="10" class="input-box">
+                </div>
+                <button id="generate-test" class="btn btn-primary">Generate Mock Test</button>
+            </div>
+
+            <div id="test-container" class="hidden">
+                <div class="test-header">
+                    <h3 id="test-title">Mock Test</h3>
+                    <div class="timer">Time: <span id="timer">00:00</span></div>
+                </div>
+                <div id="questions-container"></div>
+                <button id="submit-test" class="btn btn-primary">Submit Test</button>
+            </div>
+
+            <div id="test-results" class="hidden">
+                <h3>📝 Test Results</h3>
+                <div class="results-summary">
+                    <div class="result-stat">
+                        <label>Score:</label>
+                        <div class="result-value" id="test-score">0/0</div>
+                    </div>
+                    <div class="result-stat">
+                        <label>Percentage:</label>
+                        <div class="result-value" id="test-percentage">0%</div>
+                    </div>
+                    <div class="result-stat">
+                        <label>Time Taken:</label>
+                        <div class="result-value" id="time-taken">00:00</div>
+                    </div>
+                </div>
+                <div id="answers-review"></div>
+                <button id="new-test" class="btn btn-secondary">Generate New Test</button>
+            </div>
+        </div>
+
+        <!-- Past Questions Tab -->
+        <div id="past-questions" class="tab-content">
+            <h2>Past Year PSLE Questions</h2>
+            <div class="filter-section">
+                <div class="form-group">
+                    <label for="filter-year">Filter by Year:</label>
+                    <select id="filter-year" class="select-box">
+                        <option value="all">All Years</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter-topic">Filter by Topic:</label>
+                    <select id="filter-topic" class="select-box">
+                        <option value="all">All Topics</option>
+                        <option value="comprehension">Comprehension</option>
+                        <option value="grammar">Grammar & Vocabulary</option>
+                        <option value="composition">Composition</option>
+                        <option value="visual-text">Visual Text</option>
+                    </select>
+                </div>
+                <button id="apply-filter" class="btn btn-secondary">Apply Filter</button>
+            </div>
+            <div id="questions-list" class="questions-list"></div>
+        </div>
+
+        <!-- Custom Questions Tab -->
+        <div id="custom" class="tab-content">
+            <h2>Add Custom Questions</h2>
+            <div class="custom-question-form">
+                <div class="form-group">
+                    <label for="custom-question-text">Question:</label>
+                    <textarea id="custom-question-text" rows="4" class="input-box" placeholder="Enter your question here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="custom-topic">Topic:</label>
+                    <select id="custom-topic" class="select-box">
+                        <option value="comprehension">Comprehension</option>
+                        <option value="grammar">Grammar & Vocabulary</option>
+                        <option value="composition">Composition</option>
+                        <option value="visual-text">Visual Text</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="custom-answer">Correct Answer:</label>
+                    <textarea id="custom-answer" rows="2" class="input-box" placeholder="Enter the correct answer..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="custom-explanation">Explanation:</label>
+                    <textarea id="custom-explanation" rows="4" class="input-box" placeholder="Explain why this is the correct answer..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="custom-year">Year (Optional):</label>
+                    <input type="text" id="custom-year" class="input-box" placeholder="e.g., 2023">
+                </div>
+                <button id="add-custom-question" class="btn btn-primary">Add Question</button>
+            </div>
+            <div id="custom-questions-list" class="questions-list">
+                <h3>Your Custom Questions</h3>
+                <div id="custom-questions-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
